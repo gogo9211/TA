@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace TE.PC
 {
@@ -7,9 +8,9 @@ namespace TE.PC
         [STAThread]
         static void Main()
         {
-            Console.WriteLine("Game Started");
+            Console.WriteLine("Game Started\n");
 
-            using (var game = new Game())
+            using (Game game = new TEGame())
                 game.Run();
         }
     }

@@ -5,25 +5,27 @@ using System;
 
 namespace TE.GameComponents
 {
-    public class Player : DrawableGameComponent
+    public class Ball : DrawableGameComponent
     {
-        public const int width = 45;
-        public const int heigth = 10;
+        public const int width = 17;
+        public const int heigth = 17;
+
+        private int speed;
 
         private Texture2D texture;
         private SpriteBatch spriteBatch;
 
-        private Rectangle position;
+        private Vector2 position;
 
-        public Vector2 Position { get { return new Vector2(position.X, position.Y); } }
+        public Vector2 Position { get { return position; } }
 
-        public Player(Game game) : base(game)
+        public Ball(Game game) : base(game)
         {
-            position = new Rectangle(
-              game.GraphicsDevice.Viewport.Width / 2,
-              game.GraphicsDevice.Viewport.Height - heigth * 2,
-              width,
-              heigth);
+            var random = new Random(Guid.NewGuid().GetHashCode());
+
+            speed = random.Next(30, 150);
+
+            position = new Vector2(random.Next(width, Game.Window.ClientBounds.Width) - width, 0);
 
             if (game == null)
                 throw new ArgumentNullException("Invalid Game Instance");
@@ -48,10 +50,9 @@ namespace TE.GameComponents
         {
             base.Update(gameTime);
 
-            MouseState mouseState = Mouse.GetState();
+            float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (GraphicsDevice.Viewport.Bounds.Contains(mouseState.X, mouseState.Y) && mouseState.X < GraphicsDevice.PresentationParameters.BackBufferWidth - width / 2 && mouseState.X > width / 2)
-                position.X = mouseState.X - width / 2;
+            position.Y += speed * elapsed;
         }
 
         public override void Draw(GameTime gameTime)
@@ -60,7 +61,7 @@ namespace TE.GameComponents
                 spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque);
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(texture, position, new Rectangle(0, 0, width, heigth), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);

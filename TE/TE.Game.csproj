@@ -12,7 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Content\Sprites\Player.xnb">
+    <Folder Include="Content\Sprites\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Content\Fonts\Minecraft.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\Fonts\Ubuntu32.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
